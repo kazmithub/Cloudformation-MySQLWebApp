@@ -37,5 +37,5 @@
 
 ## 5. StackMaster(Optional)
 	The whole process can be automated if the four files above are uploaded online and the links
-	are to be added to this file. 
+	are to be added to this file. If automated, only this file must be uploaded.
 
