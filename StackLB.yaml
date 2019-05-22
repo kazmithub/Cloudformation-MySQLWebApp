@@ -1,0 +1,74 @@
+Outputs:
+
+  MyLoadBalancer:
+    Description: My Load Balancer Referred.
+    Value: !Ref MyLoadBalancer
+    Export:
+      Name: !Sub 'StackLB-MyLB'
+
+  MyDBLoadBalancer:
+    Description: My Load Balancer Referred.
+    Value: !Ref MyLoadBalancer
+    Export:
+      Name: !Sub 'StackLB-MyDBLB'
+
+
+Resources: 
+
+  MyLoadBalancer:
+  
+    Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
+    Properties:
+      CrossZone: true
+      ConnectionDrainingPolicy:
+        Enabled: true
+        Timeout: 60
+      LoadBalancerName: MyLoadBalancer
+      Listeners:
+        - InstancePort: '80'
+          LoadBalancerPort: '80'
+          Protocol: HTTP
+      Scheme: internet-facing
+      HealthCheck: 
+          HealthyThreshold : '3'
+          Interval : '30'
+          Target : HTTP:80/
+          Timeout : '5'
+          UnhealthyThreshold : '5'
+      SecurityGroups: 
+        - !ImportValue StackVPC-MyLBSecurityGroup
+      Subnets:
+        - !ImportValue StackVPC-PublicSubnet
+        - !ImportValue StackVPC-PublicSubnet2
+      Tags:
+      - Key: "Name"
+        Value: "Ahsan"
+
+  # MyDBLoadBalancer:
+  
+  #   Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
+  #   Properties:
+  #     CrossZone: true
+  #     ConnectionDrainingPolicy:
+  #       Enabled: true
+  #       Timeout: 60
+  #     LoadBalancerName: MyDBLoadBalancer
+  #     Listeners:
+  #       - InstancePort: '3306'
+  #         LoadBalancerPort: '3306'
+  #         Protocol: TCP
+  #     Scheme: internal
+  #     HealthCheck: 
+  #         HealthyThreshold : '3'
+  #         Interval : '30'
+  #         Target : HTTP:80/
+  #         Timeout : '5'
+  #         UnhealthyThreshold : '5'
+  #     SecurityGroups: 
+  #       - !ImportValue StackVPC-MyPrivateSecurityGroup
+  #     Subnets:
+  #       - !ImportValue StackVPC-PrivateSubnet
+  #     Tags:
+  #     - Key: "Name"
+  #       Value: "Ahsan"
+

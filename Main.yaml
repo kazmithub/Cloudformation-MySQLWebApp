@@ -1,0 +1,48 @@
+Resources:
+  StackVPC:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "INSERT LINK HERE"
+      Parameters:
+        Owner: "Ahsan Kazmi"
+        Project: "Mini-Project"
+      Tags:
+        - Key: Name
+          Value: Vpc
+  
+  StackInstance:
+    Type: AWS::CloudFormation::Stack
+    DependsOn : StackVPC
+    Properties:
+      TemplateURL: !Sub "INSERT LINK HERE"
+      Parameters:
+        InstanceTypeParameters: t2.micro  
+        ImageIdParameters: ami-06397100adf427136
+        KeynameParameters: "Kazmi-Key"
+      Tags:
+        - Key: Name
+          Value: PrivateInstances
+
+  StackLB:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: StackInstance
+    Properties:
+      TemplateURL: !Sub "INSERT LINK HERE"
+      Tags:
+        - Key: Name
+          Value: Load-Balancer
+
+  StackAsg:
+    Type: AWS::CloudFormation::Stack
+    DependsOn : StackLB
+    Properties:
+      TemplateURL: !Sub "INSERT LINK HERE"
+      Parameters:
+        InstanceTypeParameters: t2.micro  
+        ImageIdParameters: ami-06397100adf427136
+        KeynameParameters: "Kazmi-Key"
+      Tags:
+        - Key: Name
+          Value: Public
+ 
+        

@@ -1,0 +1,141 @@
+Parameters:
+  InstanceTypeParameters:
+    Description: Only deploy t2.micro instances.
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - m1.small
+  
+  ImageIdParameters:
+    Description: Only use ubuntu AMIs.
+    Type: String
+    Default: ami-06397100adf427136
+    AllowedValues:
+      - ami-06397100adf427136
+      # - ami-08692d171e3cf02d6
+  
+  KeynameParameters:
+    Description: use Kazmi-Key for all instances except when other is required.
+    Type: String
+    Default: "Kazmi-Key"
+    AllowedValues:
+      - "Kazmi-Key"
+      - "alam-keypair"
+
+Resources:
+
+  MyLaunchConfiguration:
+    Type: 'AWS::AutoScaling::LaunchConfiguration'
+    Properties:
+      AssociatePublicIpAddress: true
+      ImageId: !Ref ImageIdParameters
+      InstanceType: !Ref InstanceTypeParameters
+      LaunchConfigurationName: MyLaunchConf
+      KeyName: !Ref KeynameParameters
+      SecurityGroups:
+        - Fn::ImportValue: StackVPC-MyPublicSecurityGroup
+      UserData:
+        Fn::Base64: !Sub 
+        - |
+          #!/bin/bash
+          set -x
+          sleep 2m
+          apt-get update -y
+          apt-get install -y mysql-server php php-mysql
+          apt-get install -y apache2 
+          apt-get install -y unzip
+          systemctl start apache2
+          systemctl enable apache2
+          cd /var/www
+          rm -rf html
+          wget https://s3.amazonaws.com/alamkey/html.zip
+          unzip html.zip
+          sed -i -e 's/localhost/${AppPrivateIp}/g' /var/www/html/config.php
+        - AppPrivateIp:
+            !ImportValue StackInstance-PrivIp
+
+  MyAppASG:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      LaunchConfigurationName: !Ref MyLaunchConfiguration
+      LoadBalancerNames:
+        - Fn::ImportValue: StackLB-MyLB
+      MaxSize: '4'
+      MinSize: '2'
+      VPCZoneIdentifier:
+        - Fn::ImportValue: StackVPC-PublicSubnet
+        - Fn::ImportValue: StackVPC-PublicSubnet2
+      # UpdatePolicy:
+      #   AutoScalingRollingUpdate:
+      #     MinInstancesInService: 1  
+      Tags:
+        - Value: test    
+          Key: AhsanPublic-ext
+          PropagateAtLaunch: "false"
+
+  MyDBLaunchConfiguration:
+    Type: 'AWS::AutoScaling::LaunchConfiguration'
+    Properties:
+      # AssociatePublicIpAddress: "false"
+      InstanceId: !ImportValue StackInstance-MyPrivateInstance
+      # ImageId: !Ref ImageIdParameters
+      # InstanceType: !Ref InstanceTypeParameters
+      # KeyName: !Ref KeynameParameters
+      # SecurityGroups:
+      #   - Fn::ImportValue: StackVPC-MyPrivateSecurityGroup
+      # UserData:
+      #   Fn::Base64: !Sub |
+      #     #!/bin/bash
+      #     set -x
+      #     sleep 2m
+      #     apt-get update -y
+      #     apt-get install mysql-server -y
+      #     apt-get install php -y
+      #     apt-get install php-mysql -y 
+
+      #     mysql -uroot <<MYSQL_SCRIPT
+      #     CREATE USER 'admin'@'%' IDENTIFIED BY '4457570';
+      #     GRANT ALL PRIVILEGES ON * . * TO 'admin'@'%';
+      #     FLUSH PRIVILEGES;
+      #     exit;
+      #     MYSQL_SCRIPT
+
+      #     mysql -u admin -p4457570  <<MYSQL_SCRIPT
+      #     CREATE DATABASE test;
+      #     use test;
+      #     use test;
+      #     CREATE TABLE users (
+      #     id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      #     firstname VARCHAR(30) NOT NULL,
+      #     lastname VARCHAR(30) NOT NULL,
+      #     email VARCHAR(50) NOT NULL,
+      #     age INT(3),
+      #     location VARCHAR(50),
+      #     date TIMESTAMP
+      #     );
+      #     MYSQL_SCRIPT
+
+      #     #iptables -A INPUT -p tcp --dport 3306 -s 0.0.0.0 -j ACCEPT
+      #     ufw allow mysql
+      #     sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+      #     systemctl restart mysql
+
+  MyDBASG:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      LaunchConfigurationName: !Ref MyDBLaunchConfiguration
+      # LoadBalancerNames:
+      #   - Fn::ImportValue: StackLB-MyDBLB
+      MaxSize: '1'
+      MinSize: '1'
+      VPCZoneIdentifier:
+        - Fn::ImportValue: StackVPC-PrivateSubnet
+      # UpdatePolicy:
+      #   AutoScalingRollingUpdate:
+      #     MinInstancesInService: 1  
+      Tags:
+        - Value: test    
+          Key: AhsanPrivate-ext
+          PropagateAtLaunch: "false"
+
