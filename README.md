@@ -1,5 +1,6 @@
 # Description:
-	This repository contains 4 files.
+	This repository contains 4 files. Each stack is dependent on the other so they must be uploaded in
+	the given order.
 
 # Files
 1. StackVPC
