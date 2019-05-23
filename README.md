@@ -1,4 +1,4 @@
-![alt text](https://tinyurl.com/yyt8r9uy)
+![alt text](AWS-Infrastructure-Diagram.jpg)
 
 # Description:
 	This repository contains 4 files. Each stack is dependent on the other so they must be uploaded in
