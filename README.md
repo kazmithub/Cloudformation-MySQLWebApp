@@ -1,3 +1,5 @@
+![alt text](https://tinyurl.com/yyt8r9uy)
+
 # Description:
 	This repository contains 4 files. Each stack is dependent on the other so they must be uploaded in
 	the given order.
