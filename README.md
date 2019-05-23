@@ -2,7 +2,7 @@
 
 # Description:
 	This repository contains 4 files. Each stack is dependent on the other so they must be uploaded in
-	the given order.
+	the given order. 
 
 # Files
 1. StackVPC
@@ -15,7 +15,8 @@
 	An internet gateway is attached to the public subnets and NAT gateway is attached to the private
 	subnet. Routes were configured accordingly. The resources in the private subnet can only be 
 	accessed through the public subnet. The network access control list is also defined which 
-	whitelists all the IPs and can be edited to control access through any IP.
+	whitelists all the IPs and can be edited to control access through any IP. Parameterization has 
+	been done accordingly and are to be set according to the needs of the infrastructure.
 
 ## 2. StackInstance
 
@@ -27,7 +28,8 @@
 
 	The load balancer is configured in this file. It is a classic load balancer. It re-routes the 
 	port 80 traffic of the Public instances. It is configured to operate in the public and private
-	subnets. Health checks are also set inside the load balancer.
+	subnets. Health checks are also set inside the load balancer. Parameterization has been 
+	done accordingly and are to be set according to the needs of the infrastructure.
 
 ## 4. StackAsg
 
@@ -35,9 +37,11 @@
 	The public instance launch configurationis set to access the MySQL database server using the
 	username and password of admin and password respectively. Theautoscaling group of public
 	instance is Multi-AZ attached to the load balancer. It has a max and min size of 4 and 2
-	respectively. 
+	respectively. Parameterization has been done accordingly and are to be set according to the
+	needs of the infrastructure.
 
 ## 5. StackMaster(Optional)
 	The whole process can be automated if the four files above are uploaded online and the links
-	are to be added to this file. If automated, only this file must be uploaded.
+	are to be added to this file. If automated, only this file must be uploaded. Parameterization
+	has been done accordingly and are to be set according to the needs of the infrastructure.
 
