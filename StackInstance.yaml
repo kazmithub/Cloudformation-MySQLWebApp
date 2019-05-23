@@ -17,6 +17,7 @@ Parameters:
       # - ami-08692d171e3cf02d6
   
   KeynameParameters:
+  # Using keys accoring to my account.
     Description: use Kazmi-Key for all instances except when other is required.
     Type: String
     Default: "Kazmi-Key"
