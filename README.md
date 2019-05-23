@@ -1,15 +1,16 @@
 # CLOUDFORMATION-MySQLWebApp
 
-## INFRASTRUCTURE DIAGRAM: 
-
-![alt text](AWS-Infra-diag.jpg)
-
 ## Description:
 	 
 	This is a Cloudformation template for configuring MySQL in an instance and access it through a server
 	placed in a Public Subnet. The MySQL Database is kept private and is accessed through the public
 	instances. Load balancers and Autoscaling groups are configured accordingly.
 	
+
+## INFRASTRUCTURE DIAGRAM: 
+
+![alt text](AWS-Infra-diag.jpg)
+
 ## Files
 
 	This repository contains 4 files. Each stack is dependent on the other so they must be uploaded in
