@@ -2,7 +2,7 @@
 
 ## INFRASTRUCTURE DIAGRAM: 
 
-
+![alt text](AWS-Infra.jpg)
 
 ## Description:
 	 
