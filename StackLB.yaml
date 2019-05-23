@@ -14,7 +14,7 @@ Outputs:
 
 
 Resources: 
-
+# Load Balancer
   MyLoadBalancer:
   
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
