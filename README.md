@@ -14,11 +14,10 @@
 
 	This repository contains 4 files. Each stack is dependent on the other so they must be uploaded in
 	the given order.
-	
-1. StackVPC
-2. StackInstance
-3. StackLB
-4. StackAsg
+		1. StackVPC
+		2. StackInstance
+		3. StackLB
+		4. StackAsg
 
 ### 1. StackVPC
 	In this file, a VPC is defined containing 3 subnets. Two of them are public and one is private.
