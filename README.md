@@ -7,7 +7,7 @@
 ## Description:
 	 
 	This is a Cloudformation template for configuring MySQL in an instance and access it through a server
-	placed in a Public Subnet. The MySQL database is kept private and is accessed through the public
+	placed in a Public Subnet. The MySQL Database is kept private and is accessed through the public
 	instances. Load balancers and Autoscaling groups are configured accordingly.
 	
 ## Files

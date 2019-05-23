@@ -8,7 +8,7 @@ Parameters:
   Owner:
     Description: EnterIndividual Name Responsible.
     Type: String
-    Default: Owner's name
+    Default: "Owner's name"
   
   Project:
     Description: Project Description

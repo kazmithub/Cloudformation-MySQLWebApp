@@ -2,7 +2,7 @@ Resources:
   StackVPC:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub "INSERT LINK HERE"
+      TemplateURL: !Sub "INSERT YOUR LINK HERE"
       Parameters:
         Owner: "Ahsan Kazmi"
         Project: "Mini-Project"
